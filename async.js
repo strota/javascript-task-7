@@ -37,8 +37,7 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
 
         function finish(result, index) {
             results[index] = result;
-            countFinish += 1;
-            if (countFinish === jobs.length) {
+            if (results.length === jobs.length) {
                 resolve(results);
 
                 return true;
