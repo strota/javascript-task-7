@@ -23,7 +23,7 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
 
         let value = 0;
         while (value < parallelNum) {
-            main(value++);
+            main(countFinish++);
         }
 
         function main(count) {
@@ -37,7 +37,6 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
 
         function finish(result, index) {
             results[index] = result;
-            // countFinish += 1;
             if (countFinish === jobs.length) {
                 resolve(results);
 
