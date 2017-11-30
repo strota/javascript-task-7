@@ -11,8 +11,8 @@ exports.runParallel = runParallel;
 
 function runParallel(jobs, parallelNum, timeout = 1000) {
     // асинхронная магия
-    return new Promise(resolve => {  
-        let countRun = 0;
+    return new Promise(resolve => {
+        let countRun;
         let countFinish = 0;
         const results = [];
 
@@ -20,32 +20,30 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
             resolve([]);
         }
 
-        function begin(parallelNum) {
-            countRun+=1;
+        while(countRun < parallelNum) {
+            countRun += 1;
         }
-        
+
         function Finish(result, index) {
             results[index] = result;
-            countFinished++;
+            countFinish +=1;
             if (countFinish === jobs.length) {
                 resolve(results);
+
                 return true;
             }
 
             if (countRun < jobs.length) {
-                run(jobs[countRun], countRun)
-                countRun+=1;
+                main(jobs[countRun], countRun);
+                countRun += 1;
             }
-        }        
-        function run(jobNumber, countRun) {
-            let index = result => Finish(result, jobNumber);
+        }
+        function main(jobNumber, countRun) {
+            let index = result => Finish(result, countRun);
             new Promise((allow, ignore) => {
                 jobs[jobNumber]().then(allow, ignore);
                 setTimeout(ignor, timeout, new Error('Promise timeout'));
-            })
-            .then(index, index);
+            }).then(index, index);
         }
     });
 }
-
-        
