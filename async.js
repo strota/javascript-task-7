@@ -15,14 +15,15 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
         let countFinish = 0;
         const results = [];
 
-        if (jobs.length == 0) {
+        if (jobs.length === 0) {
             resolve([]);
 
             return;
         }
 
-        while (countRun < parallelNum) {
-            countRun += 1;
+        var value = 0;
+        while (value < parallelNum) {
+            main(value += 1);
         }
 
         function finish(result, index) {
