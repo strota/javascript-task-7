@@ -44,9 +44,9 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
                 return true;
             }
 
-            if (index < jobs.length) {
-                index += 1;
-                main(index);
+            if (countFinish < jobs.length) {
+                countFinish += 1;
+                main(countFinish);
             }
         }
     });
