@@ -21,10 +21,9 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
             return;
         }
 
-        let value = 0;
-        while (value < parallelNum) {
-            value += 1;
-            main(value);
+        for (let value = 0; value < parallelNum; value += 1) {
+            main(countFinish);
+            countFinish += 1;
         }
 
         function main(count) {
