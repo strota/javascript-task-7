@@ -23,7 +23,8 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
 
         let value = 0;
         while (value < parallelNum) {
-            main(countFinish++);
+            main(countFinish += 1);
+            value += 1;
         }
 
         function main(count) {
