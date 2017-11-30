@@ -23,14 +23,13 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
 
         let value = 0;
         while (value < parallelNum) {
-            main(countFinish += 1);
-            value += 1;
+            main(jobs[value += 1], value += 1);
         }
 
-        function main(count) {
+        function main(work, count) {
             let index = result => finish(result, count);
             new Promise((allow, ignore) => {
-                jobs[count]().then(allow, ignore);
+                work().then(allow, ignore);
                 setTimeout(ignore, timeout, new Error('Promise timeout'));
             })
                 .then(index, index);
@@ -38,15 +37,16 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
 
         function finish(result, index) {
             results[index] = result;
+            countFinish += 1;
             if (countFinish === jobs.length) {
                 resolve(results);
 
                 return true;
             }
 
-            if (countFinish < jobs.length) {
-                countFinish += 1;
-                main(countFinish);
+            if (value < jobs.length) {
+                value += 1;
+                main(value);
             }
         }
     });
