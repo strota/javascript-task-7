@@ -24,7 +24,7 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
         let value = 0;
         while (value < parallelNum) {
             value += 1;
-            main(jobs[value], value);
+            main(value);
         }
 
         function main(count) {
@@ -32,7 +32,8 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
             new Promise((allow, ignore) => {
                 jobs[count]().then(allow, ignore);
                 setTimeout(ignore, timeout, new Error('Promise timeout'));
-            }).then(index, index);
+            })
+                .then(index, index);
         }
 
         function finish(result, index) {
@@ -45,8 +46,8 @@ function runParallel(jobs, parallelNum, timeout = 1000) {
             }
 
             if (index < jobs.length) {
-                main(index);
                 index += 1;
+                main(index);
             }
         }
     });
